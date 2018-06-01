@@ -19,6 +19,19 @@
 3. ```admin-permission: 'info.admin'``` - **Tutaj wpisujemy permisje (nie potrzebna)**
 4. ```messages:``` - **Tutaj podajemy wiadomości zamykając je w ``` '' ```. Znak koloru ``` & ```**
 5. UWAGA! KAŻDA WIADOMOŚĆ TO NOWA LINIA (2 SPACJE ODSTĘPU OD BRZEGU)
+> Przykładowy config (``` [] ``` oznacza 1 spacje):
+```
+tag: '&7[&a&lINFO&7]'
+interval: 10
+admin-permission: 'info.admin'
+messages:
+[][]- 'Witaj na serwerze!\nNikt nie cierpi!'
+[][]- 'Baw sie dobrze!'
+[][]- '&cCheaterow zglaszaj na &a/helpop'
+[][]- 'Admin nie poprosi o hsalo!'
+[][]- 'Na serwerze nie ma graczy'
+[][]- 'Tab jest autorski!'
+```
 ## Pytania i odpowiedzi
 1. Skąd plugin wie którą wiadomość ma wysłać? ``` Odpowiedź jest prosta. Plugin losuje wiadomość i wysyła ją na serwer. ```
 2. Czy plugin nie będzie obciążał serwera? ``` Nie pod warunkiem, że nie ustawisz czasu mniejszego niż 5 sekund. ```
