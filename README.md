@@ -5,7 +5,7 @@
 2. Silnik: ``` Spigot/PaperSpigot/Craftbukkit ```
 3. Wymagane pluginy: ``` Brak ```
 ## Instalacja
-1. Pobierz plik JAR
+1. Pobierz plik [JAR](https://github.com/SopelPL/SAutoMSG/releases)
 2. Wgraj plik na serwer ``` /plugins ```
 3. Uruchom lub ~~zrestartuj~~ serwer
 4. Zatrzymaj serwer i skonfiguruj plugin ``` /plugins/SAutoMSG/config.yml ```
