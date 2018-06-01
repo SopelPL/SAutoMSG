@@ -17,13 +17,15 @@
 1. ```tag: '&7[&a&lINFO&7]'``` - **Tutaj podajemy prefix**
 2. ``` interval: 10 ``` - **Tutaj wpisujemy co ile sekund ma wyświetlać wiadomość**
 3. ```admin-permission: 'info.admin'``` - **Tutaj wpisujemy permisje (nie potrzebna)**
-4. ```messages:``` - **Tutaj podajemy wiadomości zamykając je w ``` '' ```. Znak koloru ``` & ```**
-5. UWAGA! KAŻDA WIADOMOŚĆ TO NOWA LINIA (2 SPACJE ODSTĘPU OD BRZEGU)
+4. ```status: 'true'``` - **NIE RUSZAĆ! Linijka ta odpowiada za włączanie/wyłączanie wysyłania wiadomości. (Plugin sam się zajmie tą linijką)**
+5. ```messages:``` - **Tutaj podajemy wiadomości zamykając je w ``` '' ```. Znak koloru ``` & ```**
+6. UWAGA! KAŻDA WIADOMOŚĆ TO NOWA LINIA (2 SPACJE ODSTĘPU OD BRZEGU)
 > Przykładowy config (``` [] ``` oznacza 1 spacje):
 ```
 tag: '&7[&a&lINFO&7]'
 interval: 10
 admin-permission: 'info.admin'
+status: true
 messages:
 [][]- 'Witaj na serwerze!\nNikt nie cierpi!'
 [][]- 'Baw sie dobrze!'
