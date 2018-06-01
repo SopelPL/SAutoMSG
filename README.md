@@ -4,6 +4,7 @@
 1. Wersja serwera: ``` 1.8x ```
 2. Silnik: ``` Spigot/PaperSpigot/Craftbukkit ```
 3. Wymagane pluginy: ``` Brak ```
+4. Java: ``` 1.8 ```
 ## Instalacja
 1. Pobierz plik [JAR](https://github.com/SopelPL/SAutoMSG/releases)
 2. Wgraj plik na serwer ``` /plugins ```
