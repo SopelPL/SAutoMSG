@@ -22,29 +22,22 @@ import Listeners.InventoryClickListener;
 public class Main extends JavaPlugin{
 	
 	public static Main inst;
+	public static boolean sendMsg;
+	public Inventory gui = Bukkit.createInventory(null, 18, colorMessage("&a&lSAutoMSG"));
 	
 	private static Timer timer = new Timer();
 	private static TimerTask task;
-	private static List<String> msgs;
-	private static int interval;
 	private static String tag;
 	private static String perm;
+	private static int interval;
 	private static int lastMsg = 0;
-	public static boolean sendMsg;
-	private static Random rand = new Random();
-	private static Random r = new Random();
-	
-	public Inventory gui = Bukkit.createInventory(null, 18, colorMessage("&a&lSAutoMSG"));
+	private static List<String> msgs;
+	private static final Random rand = new Random();
 
 	public void onEnable(){
 		inst = this;
 		saveDefaultConfig();
-		msgs = getConfig().getStringList("messages");
-		tag = getConfig().getString("tag");
-		interval = (getConfig().getInt("interval")) * 1000;
-		perm = getConfig().getString("admin-permission");
-		sendMsg = getConfig().getBoolean("status");
-		tag = colorMessage(tag);
+		setValues();
 		Bukkit.getPluginManager().registerEvents(new InventoryClickListener(), this);
 		if(sendMsg)
 			start();
@@ -80,18 +73,14 @@ public class Main extends JavaPlugin{
 			
 			@Override
 			public void run() {
-				int index = rand.nextInt(msgs.size());
+				int index = randomMessage();
 				if(index != lastMsg){
-					String m = msgs.get(index);
-					m = ChatColor.translateAlternateColorCodes('&', m);
-					Bukkit.broadcastMessage(tag + " " + m);
+					sendMessage(msgs.get(index));
 					lastMsg = index;
 				}else{
-					int i = r.nextInt(msgs.size());
-					String me = msgs.get(i);
-					me = ChatColor.translateAlternateColorCodes('&', me);
-					Bukkit.broadcastMessage(tag + " " + me);
-					lastMsg = i;
+					index = randomMessage();
+					sendMessage(msgs.get(index));
+					lastMsg = index;
 				}
 				
 			}
@@ -105,6 +94,15 @@ public class Main extends JavaPlugin{
 		return;
 	}
 	
+	private static int randomMessage(){
+		return rand.nextInt(msgs.size());
+	}
+	
+	private static void sendMessage(String msg){
+		Bukkit.broadcastMessage(tag + " " + colorMessage(msg));
+		return;
+	}
+	
 	public ItemStack createItem(Material item, int dataTag){
 		ItemStack is = new ItemStack(item, 1, (byte)dataTag);
 		return is;
@@ -112,18 +110,17 @@ public class Main extends JavaPlugin{
 	
 	@SuppressWarnings("deprecation")
 	public void openGUI(Player p){
-		for(int i = 0; i < 17; i++){
-			if(i != 2 || i != 4 || i != 6 || i != 9 || i != 13 || i != 17){
+		for(int i = 0; i < 17; i++)
+			if(i != 2 || i != 4 || i != 6 || i != 9 || i != 13 || i != 17)
 				gui.setItem(i, changeMeta(createItem(Material.getMaterial(102)), colorMessage("")));
-			}
-		}
+		
 		gui.setItem(9, changeMeta(createItem(Material.PAPER), colorMessage("&6&lWiadomosci wysylane sa co: &c" + (interval / 1000) + " &6&lsekund!")));
 		gui.setItem(2, changeMeta(createItem(Material.EMERALD_BLOCK), colorMessage("&a&lON")));
-		if(sendMsg){
+		if(sendMsg)
 			gui.setItem(4, changeMeta(createItem(Material.GRASS), colorMessage("&c>> &6Status: &a&lON")));
-		}else{
+		else
 			gui.setItem(4, changeMeta(createItem(Material.DIRT), colorMessage("&c>> &6Status: &4&lOFF")));
-		}
+		
 		gui.setItem(6, changeMeta(createItem(Material.REDSTONE_BLOCK), colorMessage("&c&lOFF")));
 		gui.setItem(13, changeMeta(createItem(Material.TNT), colorMessage("&4&lZAMKNIJ")));
 		gui.setItem(17, changeMeta(createItem(Material.PAPER), colorMessage("&6&lPermisja do panelu: &c" + perm)));
@@ -143,12 +140,22 @@ public class Main extends JavaPlugin{
 		return is;
 	}
 	
-	public String colorMessage(String m){
+	public static String colorMessage(String m){
 		if(m != null){
 			m = ChatColor.translateAlternateColorCodes('&', m);
 			return m;
 		}
 		return null;
+	}
+	
+	private void setValues(){
+		msgs = getConfig().getStringList("messages");
+		tag = getConfig().getString("tag");
+		interval = (getConfig().getInt("interval")) * 1000;
+		perm = getConfig().getString("admin-permission");
+		sendMsg = getConfig().getBoolean("status");
+		tag = colorMessage(tag);
+		return;
 	}
 	
 	public static Main getInst(){

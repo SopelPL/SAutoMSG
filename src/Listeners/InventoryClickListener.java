@@ -12,7 +12,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class InventoryClickListener implements Listener{
 
-	@SuppressWarnings("deprecation")
+	@SuppressWarnings({ "deprecation", "static-access" })
 	@EventHandler
 	public void onInventoryClick(InventoryClickEvent event) {
 		Player player = (Player) event.getWhoClicked(); 
@@ -26,7 +26,7 @@ public class InventoryClickListener implements Listener{
 					Main.start();
 					Main.sendMsg = true;
 					Main.getInst().openGUI(player);
-					player.sendMessage(Main.getInst().colorMessage("&2&lWlaczyles &aautomatyczne wiadomosci!"));
+					player.sendMessage(Main.colorMessage("&2&lWlaczyles &aautomatyczne wiadomosci!"));
 					return;
 				}else{
 					Main.getInst().openGUI(player);
@@ -48,27 +48,27 @@ public class InventoryClickListener implements Listener{
 					return;
 				}
 			}else if (clicked.getType() == Material.GRASS || clicked.getType() == Material.DIRT){
-				event.setCancelled(true);
-				player.closeInventory();
-				Main.getInst().openGUI(player);
+				returnInventory(event, player);
 				return;
 			}else if (clicked.getType() == Material.PAPER){
-				event.setCancelled(true);
-				player.closeInventory();
-				Main.getInst().openGUI(player);
+				returnInventory(event, player);
 				return;
 			}else if (clicked.getType() == Material.TNT){
 				event.setCancelled(true);
 				player.closeInventory();
 				return;
 			}else if (clicked.getType() == Material.getMaterial(102)){
-				event.setCancelled(true);
-				player.closeInventory();
-				Main.getInst().openGUI(player);
+				returnInventory(event, player);
 				return;
-			}else{
+			}else
 				return;
-			}
 		}
+	}
+	
+	private void returnInventory(InventoryClickEvent e, Player player){
+		e.setCancelled(true);
+		player.closeInventory();
+		Main.getInst().openGUI(player);
+		return;
 	}
 }
