@@ -3,7 +3,7 @@
 ## Specyfikacja techniczna
 1. Wersja serwera: ``` 1.8x - 1.12 ```
 2. Silnik: ``` Spigot/PaperSpigot/Craftbukkit ```
-3. Wymagane pluginy: ``` Brak ```
+3. Wymagane pluginy: ``` BossBarAPI ```
 4. Java: ``` 1.8 ```
 ## Instalacja
 1. Pobierz plik [JAR](https://github.com/SopelPL/SAutoMSG/releases)
