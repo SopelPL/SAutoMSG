@@ -6,6 +6,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.TextComponent;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -16,6 +17,8 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.inventivetalent.bossbar.BossBar;
+import org.inventivetalent.bossbar.BossBarAPI;
 
 import Listeners.InventoryClickListener;
 
@@ -23,6 +26,7 @@ public class Main extends JavaPlugin{
 	
 	public static Main inst;
 	public static boolean sendMsg;
+	public static boolean barMsg;
 	public Inventory gui = Bukkit.createInventory(null, 18, colorMessage("&a&lSAutoMSG"));
 	
 	private static Timer timer = new Timer();
@@ -33,18 +37,24 @@ public class Main extends JavaPlugin{
 	private static int lastMsg = 0;
 	private static List<String> msgs;
 	private static final Random rand = new Random();
+	@SuppressWarnings("unused")
+	private static BossBar boss;
 
 	public void onEnable(){
 		inst = this;
 		saveDefaultConfig();
 		setValues();
 		Bukkit.getPluginManager().registerEvents(new InventoryClickListener(), this);
+		if(Bukkit.getServer().getPluginManager().getPlugin("BossBarAPI") == null){
+			barMsg = false;
+		}
 		if(sendMsg)
 			start();
 	}
 	
 	public void onDisable(){
 		getConfig().set("status", sendMsg);
+		getConfig().set("barMsg", barMsg);
 		saveConfig();
 	}
 
@@ -91,6 +101,10 @@ public class Main extends JavaPlugin{
 	public static void stop(){
 		task.cancel();
 		task = null;
+		for(Player p : Bukkit.getOnlinePlayers()){
+			BossBarAPI.removeAllBars(p);
+		}
+		boss = null;
 		return;
 	}
 	
@@ -99,7 +113,19 @@ public class Main extends JavaPlugin{
 	}
 	
 	private static void sendMessage(String msg){
-		Bukkit.broadcastMessage(tag + " " + colorMessage(msg));
+		if(!barMsg){
+			Bukkit.broadcastMessage(tag + " " + colorMessage(msg));
+		}else{
+			for(Player p : Bukkit.getOnlinePlayers()){
+				boss = BossBarAPI.addBar(p,
+						new TextComponent(colorMessage(msg)),
+						BossBarAPI.Color.BLUE,
+						BossBarAPI.Style.NOTCHED_10,
+						1.0f,
+						interval,
+						2);
+			}
+		}
 		return;
 	}
 	
@@ -154,6 +180,7 @@ public class Main extends JavaPlugin{
 		interval = (getConfig().getInt("interval")) * 1000;
 		perm = getConfig().getString("admin-permission");
 		sendMsg = getConfig().getBoolean("status");
+		barMsg = getConfig().getBoolean("barMsg");
 		tag = colorMessage(tag);
 		return;
 	}
